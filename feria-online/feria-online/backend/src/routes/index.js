@@ -7,6 +7,7 @@ const eventos = require('../controllers/eventosController');
 const actividades = require('../controllers/actividadesController');
 const empresas = require('../controllers/empresasController');
 const admin = require('../controllers/adminController');
+const qr = require('../controllers/qrController');
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
 router.post('/auth/register', auth.register);
@@ -68,5 +69,10 @@ router.put('/admin/usuarios/:id', authMiddleware, requireRole('admin'), admin.up
 router.delete('/admin/usuarios/:id', authMiddleware, requireRole('admin'), admin.deleteUser);
 router.get('/admin/empresas', authMiddleware, requireRole('admin'), empresas.adminList);
 router.put('/admin/empresas/:id/verificar', authMiddleware, requireRole('admin'), empresas.adminVerify);
+
+// ─── QR / ASISTENCIAS ─────────────────────────────────────────────────────────
+router.post('/qr/validar', authMiddleware, requireRole('admin', 'admin_evento'), qr.validarQR);
+router.get('/qr/asistentes/:eventoId', authMiddleware, requireRole('admin', 'admin_evento'), qr.getAsistentes);
+router.get('/qr/resumen/:eventoId', authMiddleware, requireRole('admin', 'admin_evento'), qr.getResumen);
 
 module.exports = router;

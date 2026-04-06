@@ -22,6 +22,8 @@ import EmpresaDetailPage from './pages/EmpresaDetailPage';
 import EmpresaDashboard from './pages/empresa/EmpresaDashboard';
 import EmpresaProductos from './pages/empresa/EmpresaProductos';
 import ProfilePage from './pages/ProfilePage';
+import EscanerQR from './pages/event-admin/EscanerQR';
+import AsistentesEvento from './pages/event-admin/AsistentesEvento';
 
 const ProtectedRoute = ({ children, roles }) => {
   const { user, loading } = useAuth();
@@ -56,6 +58,8 @@ const AppRoutes = () => {
         <Route path="/mi-evento/charlas" element={<ProtectedRoute roles={['admin_evento']}><EventAdminCharlas /></ProtectedRoute>} />
         <Route path="/mi-evento/reuniones" element={<ProtectedRoute roles={['admin_evento']}><EventAdminReuniones /></ProtectedRoute>} />
         <Route path="/mi-evento/tickets" element={<ProtectedRoute roles={['admin_evento']}><EventAdminTickets /></ProtectedRoute>} />
+        <Route path="/mi-evento/escanear" element={<ProtectedRoute roles={['admin_evento', 'admin']}><EscanerQR /></ProtectedRoute>} />
+        <Route path="/mi-evento/asistentes" element={<ProtectedRoute roles={['admin_evento', 'admin']}><AsistentesEvento /></ProtectedRoute>} />    
 
         <Route path="/empresa/dashboard" element={<ProtectedRoute roles={['empresa']}><EmpresaDashboard /></ProtectedRoute>} />
         <Route path="/empresa/productos" element={<ProtectedRoute roles={['empresa']}><EmpresaProductos /></ProtectedRoute>} />
