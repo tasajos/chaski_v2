@@ -17,7 +17,8 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="container navbar-inner">
         <Link to="/" className="navbar-brand">
-          <span style={{ fontSize: '1.4rem' }}>🎪</span> FeriaOnline
+          <img src="/favicon.jpg" alt="Chaski" style={{ height: '32px', objectFit: 'contain' }} />
+Chaski
         </Link>
 
         <div className="navbar-nav">
