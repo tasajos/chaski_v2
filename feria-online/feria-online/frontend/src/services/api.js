@@ -92,3 +92,13 @@ export const adminService = {
   getEmpresas: () => api.get('/admin/empresas'),
   verificarEmpresa: (id, data) => api.put(`/admin/empresas/${id}/verificar`, data),
 };
+
+// ─── Inscripciones Feria ──────────────────────
+export const inscripcionesService = {
+  registrar: (data) => api.post('/inscripciones', data),
+  listar: (eventoId) => api.get(`/admin/inscripciones/${eventoId}`),
+  resumen: (eventoId) => api.get(`/admin/inscripciones/${eventoId}/resumen`),
+  marcarPagado: (id) => api.put(`/admin/inscripciones/${id}/pagar`),
+  reenviarQR: (id) => api.post(`/admin/inscripciones/${id}/reenviar-qr`),
+  validarQR: (codigo_qr) => api.post('/inscripciones/validar-qr', { codigo_qr }),
+};

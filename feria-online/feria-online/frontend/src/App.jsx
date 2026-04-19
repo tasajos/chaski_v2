@@ -24,6 +24,9 @@ import EmpresaProductos from './pages/empresa/EmpresaProductos';
 import ProfilePage from './pages/ProfilePage';
 import EscanerQR from './pages/event-admin/EscanerQR';
 import AsistentesEvento from './pages/event-admin/AsistentesEvento';
+import FeriaChicharronLanding from './pages/FeriaChicharronLanding';
+import AdminInscripciones from './pages/admin/AdminInscripciones';
+import EscanerInscripciones from './pages/admin/EscanerInscripciones';
 
 const ProtectedRoute = ({ children, roles }) => {
   const { user, loading } = useAuth();
@@ -43,6 +46,7 @@ const AppRoutes = () => {
         <Route path="/eventos/:id" element={<EventoDetailPage />} />
         <Route path="/empresas" element={<EmpresasPage />} />
         <Route path="/empresas/:id" element={<EmpresaDetailPage />} />
+        <Route path="/feria-chicharron" element={<FeriaChicharronLanding />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/registro" element={<RegisterPage />} />
 
@@ -53,6 +57,8 @@ const AppRoutes = () => {
         <Route path="/admin/eventos" element={<ProtectedRoute roles={['admin']}><AdminEventos /></ProtectedRoute>} />
         <Route path="/admin/usuarios" element={<ProtectedRoute roles={['admin']}><AdminUsuarios /></ProtectedRoute>} />
         <Route path="/admin/empresas" element={<ProtectedRoute roles={['admin']}><AdminEmpresas /></ProtectedRoute>} />
+        <Route path="/admin/inscripciones" element={<ProtectedRoute roles={['admin']}><AdminInscripciones /></ProtectedRoute>} />
+        <Route path="/admin/inscripciones/escanear" element={<ProtectedRoute roles={['admin']}><EscanerInscripciones /></ProtectedRoute>} />
 
         <Route path="/mi-evento" element={<ProtectedRoute roles={['admin_evento']}><EventAdminPanel /></ProtectedRoute>} />
         <Route path="/mi-evento/charlas" element={<ProtectedRoute roles={['admin_evento']}><EventAdminCharlas /></ProtectedRoute>} />

@@ -8,6 +8,7 @@ const actividades = require('../controllers/actividadesController');
 const empresas = require('../controllers/empresasController');
 const admin = require('../controllers/adminController');
 const qr = require('../controllers/qrController');
+const inscripciones = require('../controllers/inscripcionesController');
 
 // ─── AUTH ─────────────────────────────────────────────────────────────────────
 router.post('/auth/register', auth.register);
@@ -18,6 +19,7 @@ router.put('/auth/password', authMiddleware, auth.changePassword);
 
 // ─── EVENTOS PÚBLICOS ─────────────────────────────────────────────────────────
 router.get('/eventos', eventos.getAll);
+router.get('/eventos/slug/:slug', eventos.getBySlug);
 router.get('/eventos/:id', eventos.getById);
 
 // ─── EVENTOS - AUTENTICADOS ───────────────────────────────────────────────────
@@ -69,6 +71,15 @@ router.put('/admin/usuarios/:id', authMiddleware, requireRole('admin'), admin.up
 router.delete('/admin/usuarios/:id', authMiddleware, requireRole('admin'), admin.deleteUser);
 router.get('/admin/empresas', authMiddleware, requireRole('admin'), empresas.adminList);
 router.put('/admin/empresas/:id/verificar', authMiddleware, requireRole('admin'), empresas.adminVerify);
+
+// ─── INSCRIPCIONES FERIA (registro público sin pago) ─────────────────────────
+router.post('/inscripciones', inscripciones.registrar);
+router.post('/inscripciones/validar-qr', authMiddleware, requireRole('admin'), inscripciones.validarQR);
+router.get('/admin/inscripciones/:eventoId/resumen', authMiddleware, requireRole('admin'), inscripciones.getResumen);
+router.get('/admin/inscripciones/:eventoId', authMiddleware, requireRole('admin'), inscripciones.listar);
+router.put('/admin/inscripciones/:id/pagar', authMiddleware, requireRole('admin'), inscripciones.marcarPagado);
+router.post('/admin/inscripciones/:id/reenviar-qr', authMiddleware, requireRole('admin'), inscripciones.reenviarQR);
+router.get('/admin/inscripciones/:id/qr-imagen', authMiddleware, requireRole('admin'), inscripciones.obtenerQRImagen);
 
 // ─── QR / ASISTENCIAS ─────────────────────────────────────────────────────────
 router.post('/qr/validar', authMiddleware, requireRole('admin', 'admin_evento'), qr.validarQR);

@@ -126,6 +126,13 @@ exports.getAdminEventos = async (req, res) => {
   res.json(users);
 };
 
+exports.getBySlug = async (req, res) => {
+  const { slug } = req.params;
+  const [rows] = await pool.query('SELECT * FROM eventos WHERE slug = ? AND estado = "publicado"', [slug]);
+  if (!rows.length) return res.status(404).json({ message: 'Evento no encontrado' });
+  res.json(rows[0]);
+};
+
 exports.getStats = async (req, res) => {
   const { id } = req.params;
   const [[stats]] = await pool.query(
