@@ -1,0 +1,14 @@
+Options -MultiViews
+RewriteEngine On
+
+# ── Proxy /api → backend Node.js ──────────────────────────────────────────────
+# El puerto debe coincidir con PORT en el .env del backend (5000)
+RewriteCond %{REQUEST_URI} ^/api
+RewriteRule ^(.*)$ http://localhost:5000/$1 [P,L]
+
+# ── Frontend React SPA ────────────────────────────────────────────────────────
+# Sirve archivos y carpetas reales (assets, favicon, etc.)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Todo lo demás → index.html (React Router maneja las rutas)
+RewriteRule ^ index.html [L]
