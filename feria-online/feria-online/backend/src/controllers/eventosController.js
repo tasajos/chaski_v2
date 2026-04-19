@@ -55,10 +55,10 @@ exports.getById = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { titulo, descripcion, imagen_banner, fecha_inicio, fecha_fin, ubicacion, modalidad, estado, admin_evento_id, max_participantes } = req.body;
+  const { titulo, slug, descripcion, imagen_banner, fecha_inicio, fecha_fin, ubicacion, modalidad, estado, admin_evento_id, max_participantes } = req.body;
   const [result] = await pool.query(
-    'INSERT INTO eventos (titulo,descripcion,imagen_banner,fecha_inicio,fecha_fin,ubicacion,modalidad,estado,creado_por,admin_evento_id,max_participantes) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
-    [titulo, descripcion, imagen_banner || null, fecha_inicio, fecha_fin, ubicacion || null, modalidad || 'virtual', estado || 'borrador', req.user.id, admin_evento_id || null, max_participantes || null]
+    'INSERT INTO eventos (titulo,slug,descripcion,imagen_banner,fecha_inicio,fecha_fin,ubicacion,modalidad,estado,creado_por,admin_evento_id,max_participantes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)',
+    [titulo, slug || null, descripcion, imagen_banner || null, fecha_inicio, fecha_fin, ubicacion || null, modalidad || 'presencial', estado || 'borrador', req.user.id, admin_evento_id || null, max_participantes || null]
   );
   if (admin_evento_id) {
     await pool.query('UPDATE usuarios SET rol="admin_evento" WHERE id=? AND rol="participante"', [admin_evento_id]);
@@ -68,11 +68,11 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   const { id } = req.params;
-  const { titulo, descripcion, imagen_banner, fecha_inicio, fecha_fin, ubicacion, modalidad, estado, admin_evento_id, max_participantes } = req.body;
+  const { titulo, slug, descripcion, imagen_banner, fecha_inicio, fecha_fin, ubicacion, modalidad, estado, admin_evento_id, max_participantes } = req.body;
   const [prev] = await pool.query('SELECT admin_evento_id FROM eventos WHERE id=?', [id]);
   await pool.query(
-    'UPDATE eventos SET titulo=?,descripcion=?,imagen_banner=?,fecha_inicio=?,fecha_fin=?,ubicacion=?,modalidad=?,estado=?,admin_evento_id=?,max_participantes=? WHERE id=?',
-    [titulo, descripcion, imagen_banner || null, fecha_inicio, fecha_fin, ubicacion || null, modalidad, estado, admin_evento_id || null, max_participantes || null, id]
+    'UPDATE eventos SET titulo=?,slug=?,descripcion=?,imagen_banner=?,fecha_inicio=?,fecha_fin=?,ubicacion=?,modalidad=?,estado=?,admin_evento_id=?,max_participantes=? WHERE id=?',
+    [titulo, slug || null, descripcion, imagen_banner || null, fecha_inicio, fecha_fin, ubicacion || null, modalidad, estado, admin_evento_id || null, max_participantes || null, id]
   );
   if (admin_evento_id && admin_evento_id !== prev[0]?.admin_evento_id) {
     await pool.query('UPDATE usuarios SET rol="admin_evento" WHERE id=? AND rol="participante"', [admin_evento_id]);
